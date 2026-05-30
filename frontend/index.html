@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<!-- Tela de login e cadastro da Pizzaria - Fase 0 - [Equipe Pizzaria] -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pizzaria - Acesso</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="cartao">
+    <header class="cabecalho">
+      <h1 class="logo">Bella <span>Pizza</span></h1>
+      <p class="subtitulo">Sistema de gerenciamento</p>
+    </header>
+
+    <!-- Abas para alternar entre Login e Cadastro -->
+    <div class="abas">
+      <button class="aba ativa" id="aba-login">Entrar</button>
+      <button class="aba" id="aba-cadastro">Cadastrar</button>
+    </div>
+
+    <!-- FORMULARIO DE LOGIN -->
+    <form class="formulario ativo" id="form-login">
+      <div class="campo">
+        <label for="login-email">E-mail</label>
+        <input type="email" id="login-email" placeholder="voce@email.com" required />
+      </div>
+      <div class="campo">
+        <label for="login-senha">Senha</label>
+        <input type="password" id="login-senha" placeholder="Sua senha" required />
+      </div>
+      <button type="submit" class="botao">Entrar</button>
+      <p class="mensagem" id="msg-login"></p>
+    </form>
+
+    <!-- FORMULARIO DE CADASTRO -->
+    <form class="formulario" id="form-cadastro">
+      <div class="campo">
+        <label for="cad-nome">Nome</label>
+        <input type="text" id="cad-nome" placeholder="Seu nome" required />
+      </div>
+      <div class="campo">
+        <label for="cad-email">E-mail</label>
+        <input type="email" id="cad-email" placeholder="voce@email.com" required />
+      </div>
+      <div class="campo">
+        <label for="cad-senha">Senha</label>
+        <input type="password" id="cad-senha" placeholder="Crie uma senha" required />
+      </div>
+      <button type="submit" class="botao">Criar conta</button>
+      <p class="mensagem" id="msg-cadastro"></p>
+    </form>
+  </main>
+
+  <script src="js/auth.js"></script>
+</body>
+</html>

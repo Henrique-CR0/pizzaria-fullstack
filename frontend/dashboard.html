@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<!-- Pagina protegida: so abre se houver token JWT valido - [Equipe Pizzaria] -->
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pizzaria - Painel</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <main class="cartao painel">
+    <h1 class="saudacao" id="saudacao">Carregando...</h1>
+    <p>Voce esta autenticado. Esta pagina so abre com um token JWT valido.</p>
+
+    <div class="dados" id="dados-usuario">
+      <!-- preenchido via JavaScript -->
+    </div>
+
+    <button class="botao botao-sair" id="botao-sair">Sair</button>
+  </main>
+
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

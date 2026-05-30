@@ -10,7 +10,13 @@ const swaggerUi = require('swagger-ui-express');
 
 const sequelize = require('./src/config/database');
 const swaggerSpec = require('./src/config/swagger');
+
+// Importar os models garante que o Sequelize crie as tabelas no sync().
+require('./src/models/User');
+require('./src/models/Produto');
+
 const authRoutes = require('./src/routes/authRoutes');
+const produtoRoutes = require('./src/routes/produtoRoutes');
 
 const app = express();
 const PORTA = process.env.PORT || 3000;
@@ -36,6 +42,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Rotas de autenticacao (cadastro, login, perfil)
 app.use('/auth', authRoutes);
+
+// Rotas de produtos (CRUD protegido por JWT)
+app.use('/produtos', produtoRoutes);
 
 // --- Inicializacao ---
 

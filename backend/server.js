@@ -10,7 +10,6 @@ const swaggerUi = require('swagger-ui-express');
 
 const sequelize = require('./src/config/database');
 const swaggerSpec = require('./src/config/swagger');
-
 // Importar os models garante que o Sequelize crie as tabelas no sync().
 require('./src/models/User');
 require('./src/models/Produto');

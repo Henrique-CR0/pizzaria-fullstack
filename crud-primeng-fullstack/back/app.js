@@ -20,6 +20,7 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var alunosRouter = require('./routes/alunos');
 var petsRouter = require('./routes/pets');
+var produtosRouter = require('./routes/produtos');
 var authRouter = require('./routes/auth')
 
 // USANDO ROTAS
@@ -27,6 +28,7 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/alunos', alunosRouter);
 app.use('/pets', petsRouter);
+app.use('/produtos', produtosRouter);
 app.use('/auth', authRouter)
 
 // view engine setup

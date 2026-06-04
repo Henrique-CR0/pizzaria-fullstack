@@ -5,6 +5,9 @@ import { RouterModule } from '@angular/router';
     imports: [RouterModule.forChild([
         { path: 'pet', loadChildren: () => import('./pet/pet.module').then(m => m.PetModule) },
         { path: 'produto', loadChildren: () => import('./produto/produto.module').then(m => m.ProdutoModule) },
+        { path: 'pet', loadChildren: () => import('./pet/pet.module').then(m => m.PetModule) },
+        { path: 'produto', loadChildren: () => import('./produto/produto.module').then(m => m.ProdutoModule) },
+        { path: 'cliente', loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule) },
         { path: '**', redirectTo: '/notfound' }
     ])],
     exports: [RouterModule]

@@ -1,0 +1,172 @@
+<!-- Tela de clientes: tabela + formulario com ViaCEP/IBGE -->
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="openNew()"></button>
+                        <button pButton pRipple label="Excluir" icon="pi pi-trash" class="p-button-danger"
+                            (click)="deleteSelectedClientes()"
+                            [disabled]="!selectedClientes || !selectedClientes.length"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help"
+                        (click)="dt.exportCSV()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="clientes" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['nomeCompleto','telefone','cidade','estado','bairro']" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes"
+                [(selection)]="selectedClientes" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Gerenciar Clientes</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."
+                                class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                        <th pSortableColumn="nomeCompleto">Nome <p-sortIcon field="nomeCompleto"></p-sortIcon></th>
+                        <th pSortableColumn="telefone">Telefone <p-sortIcon field="telefone"></p-sortIcon></th>
+                        <th pSortableColumn="cidade">Cidade <p-sortIcon field="cidade"></p-sortIcon></th>
+                        <th pSortableColumn="estado">UF <p-sortIcon field="estado"></p-sortIcon></th>
+                        <th>Favorito</th>
+                        <th>Ações</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-cliente>
+                    <tr>
+                        <td><p-tableCheckbox [value]="cliente"></p-tableCheckbox></td>
+                        <td><span class="p-column-title">Id</span>{{cliente.id}}</td>
+                        <td><span class="p-column-title">Nome</span>{{cliente.nomeCompleto}}</td>
+                        <td><span class="p-column-title">Telefone</span>{{cliente.telefone}}</td>
+                        <td><span class="p-column-title">Cidade</span>{{cliente.cidade}}</td>
+                        <td><span class="p-column-title">UF</span>{{cliente.estado}}</td>
+                        <td><span class="p-column-title">Favorito</span>{{cliente.tipoEndereco}}</td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2" (click)="editCliente(cliente)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deleteCliente(cliente)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <!-- Popup de cadastro / edicao -->
+        <p-dialog [(visible)]="clienteDialog" [style]="{width: '500px'}" header="Dados do Cliente" [modal]="true"
+            class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="nomeCompleto">Nome completo</label>
+                    <input type="text" pInputText id="nomeCompleto" [(ngModel)]="cliente.nomeCompleto" required autofocus
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.nomeCompleto}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.nomeCompleto">Nome é obrigatório</small>
+                </div>
+                <div class="field">
+                    <label for="telefone">Telefone</label>
+                    <input type="text" pInputText id="telefone" [(ngModel)]="cliente.telefone" />
+                </div>
+                <div class="field">
+                    <label for="cep">CEP</label>
+                    <input type="text" pInputText id="cep" [(ngModel)]="cliente.cep" (blur)="buscarCep()"
+                        placeholder="Somente numeros" />
+                    <small>Digite o CEP e saia do campo para preencher o endereço automaticamente.</small>
+                </div>
+                <div class="field">
+                    <label for="endereco">Endereço</label>
+                    <input type="text" pInputText id="endereco" [(ngModel)]="cliente.endereco" />
+                </div>
+                <div class="field">
+                    <label for="numero">Número</label>
+                    <input type="text" pInputText id="numero" [(ngModel)]="cliente.numero" />
+                </div>
+                <div class="field">
+                    <label for="complemento">Complemento</label>
+                    <input type="text" pInputText id="complemento" [(ngModel)]="cliente.complemento" />
+                </div>
+                <div class="field">
+                    <label for="bairro">Bairro</label>
+                    <input type="text" pInputText id="bairro" [(ngModel)]="cliente.bairro" />
+                </div>
+                <div class="field">
+                    <label for="estado">Estado</label>
+                    <p-dropdown appendTo="body" inputId="estado" [options]="estados" optionLabel="nome"
+                        optionValue="sigla" [(ngModel)]="cliente.estado" (onChange)="onEstadoChange()" [filter]="true"
+                        placeholder="Selecione o estado"></p-dropdown>
+                </div>
+                <div class="field">
+                    <label for="cidade">Cidade</label>
+                    <p-dropdown appendTo="body" inputId="cidade" [options]="cidades" optionLabel="nome"
+                        optionValue="nome" [(ngModel)]="cliente.cidade" [filter]="true"
+                        placeholder="Selecione a cidade"></p-dropdown>
+                </div>
+                <div class="field">
+                    <label for="pontoReferencia">Ponto de referência</label>
+                    <textarea pInputTextarea id="pontoReferencia" [(ngModel)]="cliente.pontoReferencia" rows="2"></textarea>
+                </div>
+                <!-- Seletor "Favoritar endereco" estilo iFood: selecionado fica vermelho -->
+                <div class="field">
+                    <label>Favoritar endereço</label>
+                    <div class="flex gap-2">
+                        <button pButton type="button" label="Casa" icon="pi pi-home"
+                            [ngClass]="cliente.tipoEndereco === 'Casa' ? 'p-button-danger' : 'p-button-outlined p-button-secondary'"
+                            (click)="cliente.tipoEndereco = 'Casa'"></button>
+                        <button pButton type="button" label="Trabalho" icon="pi pi-briefcase"
+                            [ngClass]="cliente.tipoEndereco === 'Trabalho' ? 'p-button-danger' : 'p-button-outlined p-button-secondary'"
+                            (click)="cliente.tipoEndereco = 'Trabalho'"></button>
+                    </div>
+                </div>
+            </ng-template>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text"
+                    (click)="saveCliente()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <!-- Confirmar excluir 1 -->
+        <p-dialog [(visible)]="deleteClienteDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="cliente">Tem certeza que deseja excluir <b>{{cliente.nomeCompleto}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não"
+                    (click)="deleteClienteDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim"
+                    (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <!-- Confirmar excluir varios -->
+        <p-dialog [(visible)]="deleteClientesDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Tem certeza que deseja excluir os clientes selecionados?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não"
+                    (click)="deleteClientesDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim"
+                    (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

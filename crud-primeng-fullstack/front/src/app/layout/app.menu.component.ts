@@ -59,7 +59,10 @@ export class AppMenuComponent implements OnInit {
                 label: 'Opções',
                 items: [
                    { label: 'Pets', icon: 'pi pi-fw pi-prime', routerLink: ['/main/pet'] },
-                { label: 'Produtos', icon: 'pi pi-fw pi-shopping-cart', routerLink: ['/main/produto'] }
+                { label: 'Produtos', icon: 'pi pi-fw pi-shopping-cart', routerLink: ['/main/produto'] },
+                { label: 'Pets', icon: 'pi pi-fw pi-prime', routerLink: ['/main/pet'] },
+                { label: 'Produtos', icon: 'pi pi-fw pi-shopping-cart', routerLink: ['/main/produto'] },
+                { label: 'Clientes', icon: 'pi pi-fw pi-users', routerLink: ['/main/cliente'] }
                 ]
             },
             {

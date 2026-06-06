@@ -1,0 +1,175 @@
+<!-- Tela de pedidos: escolhe cliente, adiciona produtos e calcula o total. -->
+<div class="grid">
+    <div class="col-12">
+        <div class="card px-6 py-6">
+            <p-toast></p-toast>
+            <p-toolbar styleClass="mb-4">
+                <ng-template pTemplate="left">
+                    <div class="my-2">
+                        <button pButton pRipple label="Novo" icon="pi pi-plus" class="p-button-success mr-2"
+                            (click)="openNew()"></button>
+                        <button pButton pRipple label="Excluir" icon="pi pi-trash" class="p-button-danger"
+                            (click)="deleteSelectedPedidos()"
+                            [disabled]="!selectedPedidos || !selectedPedidos.length"></button>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="right">
+                    <button pButton pRipple label="Exportar" icon="pi pi-upload" class="p-button-help"
+                        (click)="dt.exportCSV()"></button>
+                </ng-template>
+            </p-toolbar>
+
+            <p-table #dt [value]="pedidos" responsiveLayout="scroll" [rows]="10"
+                [globalFilterFields]="['clienteNome','status']" [paginator]="true"
+                [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
+                currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} pedidos"
+                [(selection)]="selectedPedidos" selectionMode="multiple" [rowHover]="true" dataKey="id">
+                <ng-template pTemplate="caption">
+                    <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
+                        <h5 class="m-0">Gerenciar Pedidos</h5>
+                        <span class="block mt-2 md:mt-0 p-input-icon-left">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="onGlobalFilter(dt, $event)" placeholder="Buscar..."
+                                class="w-full sm:w-auto" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem"><p-tableHeaderCheckbox></p-tableHeaderCheckbox></th>
+                        <th pSortableColumn="id">Id <p-sortIcon field="id"></p-sortIcon></th>
+                        <th pSortableColumn="clienteNome">Cliente <p-sortIcon field="clienteNome"></p-sortIcon></th>
+                        <th>Itens</th>
+                        <th pSortableColumn="total">Total <p-sortIcon field="total"></p-sortIcon></th>
+                        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+                        <th>Data</th>
+                        <th>Ações</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-pedido>
+                    <tr>
+                        <td><p-tableCheckbox [value]="pedido"></p-tableCheckbox></td>
+                        <td><span class="p-column-title">Id</span>{{pedido.id}}</td>
+                        <td><span class="p-column-title">Cliente</span>{{pedido.clienteNome}}</td>
+                        <td><span class="p-column-title">Itens</span>{{pedido.itens?.length || 0}}</td>
+                        <td><span class="p-column-title">Total</span>{{pedido.total | currency:'BRL'}}</td>
+                        <td><span class="p-column-title">Status</span>{{pedido.status}}</td>
+                        <td><span class="p-column-title">Data</span>{{pedido.data}}</td>
+                        <td>
+                            <div class="flex">
+                                <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-success mr-2" (click)="editPedido(pedido)"></button>
+                                <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                                    (click)="deletePedido(pedido)"></button>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </div>
+
+        <!-- Popup de cadastro / edicao do pedido -->
+        <p-dialog [(visible)]="pedidoDialog" [style]="{width: '600px'}" header="Dados do Pedido" [modal]="true"
+            class="p-fluid">
+            <ng-template pTemplate="content">
+                <div class="field">
+                    <label for="cliente">Cliente</label>
+                    <p-dropdown appendTo="body" inputId="cliente" [options]="clientes" optionLabel="nomeCompleto"
+                        [(ngModel)]="clienteSelecionado" [filter]="true" placeholder="Selecione o cliente"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !clienteSelecionado}"></p-dropdown>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !clienteSelecionado">Selecione um cliente</small>
+                </div>
+
+                <div class="field">
+                    <label for="status">Status</label>
+                    <p-dropdown appendTo="body" inputId="status" [options]="statusOptions"
+                        [(ngModel)]="pedido.status" placeholder="Selecione o status"></p-dropdown>
+                </div>
+
+                <!-- Area para adicionar produtos ao pedido -->
+                <div class="field">
+                    <label>Adicionar produto</label>
+                    <div class="flex gap-2 align-items-center">
+                        <p-dropdown appendTo="body" [options]="produtos" optionLabel="nome"
+                            [(ngModel)]="produtoSelecionado" [filter]="true" placeholder="Produto"
+                            styleClass="flex-1"></p-dropdown>
+                        <p-inputNumber [(ngModel)]="quantidade" [min]="1" [showButtons]="true"
+                            buttonLayout="horizontal" incrementButtonIcon="pi pi-plus"
+                            decrementButtonIcon="pi pi-minus" [style]="{width: '9rem'}"></p-inputNumber>
+                        <button pButton pRipple type="button" icon="pi pi-plus" class="p-button-success"
+                            (click)="adicionarItem()"></button>
+                    </div>
+                </div>
+
+                <!-- Lista de itens do pedido -->
+                <table class="w-full" *ngIf="pedido.itens && pedido.itens.length > 0">
+                    <thead>
+                        <tr>
+                            <th class="text-left">Produto</th>
+                            <th>Qtd</th>
+                            <th class="text-right">Preço</th>
+                            <th class="text-right">Subtotal</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of pedido.itens; let i = index">
+                            <td class="text-left">{{item.nome}}</td>
+                            <td class="text-center">{{item.quantidade}}</td>
+                            <td class="text-right">{{item.preco | currency:'BRL'}}</td>
+                            <td class="text-right">{{(item.preco || 0) * (item.quantidade || 0) | currency:'BRL'}}</td>
+                            <td class="text-center">
+                                <button pButton pRipple type="button" icon="pi pi-times"
+                                    class="p-button-rounded p-button-text p-button-danger" (click)="removerItem(i)"></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <small class="ng-dirty ng-invalid" *ngIf="submitted && (!pedido.itens || pedido.itens.length === 0)">
+                    Adicione pelo menos um produto
+                </small>
+
+                <!-- Total calculado -->
+                <div class="flex justify-content-end mt-3">
+                    <h5 class="m-0">Total: {{pedido.total | currency:'BRL'}}</h5>
+                </div>
+            </ng-template>
+
+            <ng-template pTemplate="footer">
+                <button pButton pRipple label="Cancelar" icon="pi pi-times" class="p-button-text"
+                    (click)="hideDialog()"></button>
+                <button pButton pRipple label="Salvar" icon="pi pi-check" class="p-button-text"
+                    (click)="savePedido()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <!-- Confirmar excluir 1 -->
+        <p-dialog [(visible)]="deletePedidoDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span *ngIf="pedido">Tem certeza que deseja excluir o pedido de <b>{{pedido.clienteNome}}</b>?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não"
+                    (click)="deletePedidoDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim"
+                    (click)="confirmDelete()"></button>
+            </ng-template>
+        </p-dialog>
+
+        <!-- Confirmar excluir varios -->
+        <p-dialog [(visible)]="deletePedidosDialog" header="Confirmar" [modal]="true" [style]="{width:'450px'}">
+            <div class="flex align-items-center justify-content-center">
+                <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem"></i>
+                <span>Tem certeza que deseja excluir os pedidos selecionados?</span>
+            </div>
+            <ng-template pTemplate="footer">
+                <button pButton pRipple icon="pi pi-times" class="p-button-text" label="Não"
+                    (click)="deletePedidosDialog = false"></button>
+                <button pButton pRipple icon="pi pi-check" class="p-button-text" label="Sim"
+                    (click)="confirmDeleteSelected()"></button>
+            </ng-template>
+        </p-dialog>
+    </div>
+</div>

@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
@@ -16,7 +17,13 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService) { }
+    constructor(public layoutService: LayoutService, private router: Router) { }
+
+    // Encerra a sessao: apaga o token e volta pra tela de login.
+    sair() {
+        localStorage.removeItem('token');
+        this.router.navigate(['/auth/login']);
+    }
 
     logout(){
         console.log("saindo")

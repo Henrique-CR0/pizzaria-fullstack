@@ -158,6 +158,13 @@ export class PedidoComponent implements OnInit {
         }
     }
 
+    // Define a cor da badge conforme o status do pedido.
+    statusSeverity(status: any): string {
+        if (status === 'Entregue') return 'success';
+        if (status === 'Pendente') return 'warning';
+        return 'info';
+    }
+    
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }

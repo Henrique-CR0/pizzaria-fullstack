@@ -30,6 +30,8 @@ import { InputNumberModule } from 'primeng/inputnumber';
 
 import { DialogModule } from 'primeng/dialog';
 
+import { TagModule } from 'primeng/tag';
+
 @NgModule({
 
     imports: [
@@ -56,7 +58,9 @@ import { DialogModule } from 'primeng/dialog';
 
         InputNumberModule,
 
-        DialogModule
+        DialogModule,
+
+        TagModule
 
     ],
 

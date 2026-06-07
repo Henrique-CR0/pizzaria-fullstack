@@ -53,7 +53,9 @@
                         <td><span class="p-column-title">Cliente</span>{{pedido.clienteNome}}</td>
                         <td><span class="p-column-title">Itens</span>{{pedido.itens?.length || 0}}</td>
                         <td><span class="p-column-title">Total</span>{{pedido.total | currency:'BRL'}}</td>
-                        <td><span class="p-column-title">Status</span>{{pedido.status}}</td>
+                        <td><span class="p-column-title">Status</span>
+    <p-tag [value]="pedido.status" [severity]="statusSeverity(pedido.status)" [rounded]="true"></p-tag>
+                        </td>
                         <td><span class="p-column-title">Data</span>{{pedido.data}}</td>
                         <td>
                             <div class="flex">

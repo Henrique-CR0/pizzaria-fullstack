@@ -12,3 +12,57 @@ $gutter: 1rem; //for primeflex grid system
 @import "assets/demo/styles/flags/flags.css";
 @import "assets/demo/styles/badges.scss";
 @import "assets/demo/styles/code.scss";
+
+/* ===== Tema Pac Pizzaria ===== */
+.layout-topbar {
+    background-color: #E8132B;
+    border-bottom: none;
+}
+.layout-topbar .layout-topbar-logo span {
+    color: #ffffff;
+}
+.layout-topbar .layout-topbar-button,
+.layout-topbar .layout-menu-button {
+    color: #ffffff !important;
+}
+.layout-topbar .layout-topbar-button:hover {
+    background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Fundo cinza claro estilo QG */
+.layout-wrapper,
+.layout-main-container {
+    background-color: #F2F3F5;
+}
+
+/* Cards brancos arredondados com borda e sombra leve */
+.card {
+    border-radius: 16px;
+    border: 1px solid #E5E7EB;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+/* Cor de destaque vermelha (paginação, seleção, foco) */
+:root {
+    --primary-color: #E8132B;
+    --primary-color-text: #ffffff;
+}
+
+/* Banner da Pac Pizzaria */
+.pizza-banner {
+    background: linear-gradient(135deg, #E8132B, #B00D20);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    text-align: center;
+}
+.pizza-banner h1 {
+    color: #ffffff;
+    font-size: 2.4rem;
+    font-weight: 800;
+    margin: 0;
+}
+.pizza-banner p {
+    color: #ffe3e3;
+    font-size: 1.1rem;
+    margin: 0.5rem 0 0;
+}

@@ -1,24 +1,18 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html'
 })
 export class LoginComponent {
-
     username: string = '';
     password: string = '';
     erro: string = '';
 
-    constructor(
-        public layoutService: LayoutService,
-        private http: HttpClient,
-        private router: Router
-    ) { }
+    constructor(private http: HttpClient, private router: Router) { }
 
     // Faz login na API, guarda o token e entra no sistema.
     entrar() {

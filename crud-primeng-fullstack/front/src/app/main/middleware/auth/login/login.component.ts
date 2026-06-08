@@ -30,7 +30,6 @@ export class LoginComponent {
         private messageService: MessageService) { }
 
     async login(): Promise<void> {
-        console.log('Attempting login with', this.username, this.password);
         try {
             if (!this.username || !this.password) {
                 this.messageService.add({ severity: 'error', summary: 'Erro', detail: 'Preencha todos os campos' });
@@ -48,12 +47,18 @@ export class LoginComponent {
                     throw new Error('Falha na autenticação');
                 }
             }
-        } catch (error) {
+        } catch (error: any) {
             console.error('Login failed', error);
+            let detalhe = 'Não foi possível entrar. Tente novamente.';
+            if (error && (error.status === 401 || error.status === 403)) {
+                detalhe = 'Usuário ou senha incorretos.';
+            } else if (error && (error.status === 0 || error.status >= 500)) {
+                detalhe = 'Servidor indisponível. Tente novamente em instantes.';
+            }
             this.messageService.add({
                 severity: 'error',
                 summary: 'Erro no login',
-                detail: 'Credenciais inválidas ou servidor indisponível'
+                detail: detalhe
             });
         } finally {
             this.loading = false;

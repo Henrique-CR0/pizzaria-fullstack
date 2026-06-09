@@ -15,58 +15,26 @@ $gutter: 1rem; //for primeflex grid system
 
 /* ===== Tema Pac Pizzaria ===== */
 .layout-topbar {
-    background-color: #2D3748;
-    border-bottom: none;
+    background-color: #ffffff;
+    border-bottom: 3px solid #D9A441;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
 }
-.layout-topbar .layout-topbar-logo span {
-    color: #ffffff;
+.layout-topbar .layout-topbar-logo span,
+.layout-topbar .layout-topbar-logo {
+    color: #1F2937;
 }
 .layout-topbar .layout-topbar-button,
 .layout-topbar .layout-menu-button {
-    color: #ffffff !important;
+    color: #4B5563 !important;
 }
 .layout-topbar .layout-topbar-button:hover {
-    background-color: rgba(255, 255, 255, 0.15);
+    background-color: rgba(0, 0, 0, 0.05);
 }
-
-/* Fundo cinza claro estilo QG */
-.layout-wrapper,
-.layout-main-container {
-    background-color: #F2F3F5;
-}
-
-/* Cards brancos arredondados com borda e sombra leve */
-.card {
-    border-radius: 16px;
-    border: 1px solid #E5E7EB;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-/* Cor de destaque vermelha (paginação, seleção, foco) */
 :root {
     --primary-color: #D9A441;
     --primary-color-text: #1F2937;
 }
 
-/* Banner da Pac Pizzaria */
-.pizza-banner {
-    background: linear-gradient(135deg, #E8132B, #B00D20);
-    border-radius: 16px;
-    padding: 2.5rem 2rem;
-    text-align: center;
-}
-.pizza-banner h1 {
-    color: #ffffff;
-    font-size: 2.4rem;
-    font-weight: 800;
-    margin: 0;
-}
-.pizza-banner p {
-    color: #ffe3e3;
-    font-size: 1.1rem;
-    margin: 0.5rem 0 0;
-}
-/* Botoes primarios em grafite (combinando com o topo) */
 .p-button:not([class*="p-button-"]) {
     background: #2D3748;
     border-color: #2D3748;

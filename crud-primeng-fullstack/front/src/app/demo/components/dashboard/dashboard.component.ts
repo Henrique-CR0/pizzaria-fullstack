@@ -7,13 +7,13 @@ import { environment } from '../../../../environments/environment';
 })
 export class DashboardComponent implements OnInit {
 
-    // Totais (cards do topo).
     totalProdutos: number = 0;
     totalClientes: number = 0;
     totalPedidos: number = 0;
     faturamento: number = 0;
 
-    // Dados dos graficos.
+    ultimosPedidos: any[] = [];
+
     statusData: any;
     maisPedidosData: any;
     faturamentoData: any;
@@ -27,7 +27,6 @@ export class DashboardComponent implements OnInit {
             "Authorization": "Bearer " + localStorage.getItem("token")
         });
 
-        // Opcoes visuais comuns aos graficos.
         this.chartOptions = {
             plugins: { legend: { labels: { color: '#495057' } } },
             scales: {
@@ -36,7 +35,6 @@ export class DashboardComponent implements OnInit {
             }
         };
 
-        // Produtos: conta o total e monta o grafico por categoria.
         this.http.get<any>(environment.baseUrl + "/produtos", { headers })
             .subscribe(res => {
                 const produtos = res.produtos || [];
@@ -44,39 +42,68 @@ export class DashboardComponent implements OnInit {
                 this.montarGraficoCategoria(produtos);
             });
 
-        // Clientes: so o total.
         this.http.get<any>(environment.baseUrl + "/clientes", { headers })
             .subscribe(res => this.totalClientes = (res.clientes || []).length);
 
-        // Pedidos: total, faturamento e os graficos de status, mais pedidos e faturamento por dia.
         this.http.get<any>(environment.baseUrl + "/pedidos", { headers })
             .subscribe(res => {
                 const pedidos = res.pedidos || [];
                 this.totalPedidos = pedidos.length;
                 this.faturamento = pedidos.reduce((s: number, p: any) => s + (p.total || 0), 0);
+                this.ultimosPedidos = pedidos.slice().sort((a: any, b: any) => b.id - a.id).slice(0, 5);
                 this.montarGraficoStatus(pedidos);
                 this.montarGraficoMaisPedidos(pedidos);
                 this.montarGraficoFaturamento(pedidos);
             });
     }
 
-    // Pedidos agrupados por status (rosca).
+    // Cor de cada status (usada no selo da tabela e no grafico de status).
+    statusColor(status: string) {
+        if (status === 'Entregue') {
+            return '#43A047';
+        }
+        if (status === 'Pendente') {
+            return '#F0A800';
+        }
+        if (status === 'Em preparo') {
+            return '#1E88E5';
+        }
+        if (status === 'Saiu para entrega') {
+            return '#7E57C2';
+        }
+        return '#9E9E9E';
+    }
+
+    // Cor de cada categoria (Pizza puxa pro vermelho de tomate).
+    corCategoria(categoria: string) {
+        if (categoria === 'Pizza') {
+            return '#E0492F';
+        }
+        if (categoria === 'Bebida') {
+            return '#1E88E5';
+        }
+        if (categoria === 'Sobremesa') {
+            return '#F0A800';
+        }
+        return '#9E9E9E';
+    }
+
     montarGraficoStatus(pedidos: any[]) {
         const contagem: any = {};
         pedidos.forEach(p => {
             const s = p.status || 'Sem status';
             contagem[s] = (contagem[s] || 0) + 1;
         });
+        const labels = Object.keys(contagem);
         this.statusData = {
-            labels: Object.keys(contagem),
+            labels: labels,
             datasets: [{
                 data: Object.values(contagem),
-                backgroundColor: ['#F0A800', '#42A5F5', '#AB47BC', '#66BB6A', '#EC407A']
+                backgroundColor: labels.map(s => this.statusColor(s))
             }]
         };
     }
 
-    // Produtos mais pedidos: soma as quantidades nos itens de todos os pedidos (top 5).
     montarGraficoMaisPedidos(pedidos: any[]) {
         const contagem: any = {};
         pedidos.forEach(p => {
@@ -91,12 +118,11 @@ export class DashboardComponent implements OnInit {
             datasets: [{
                 label: 'Quantidade pedida',
                 data: ordenado.map(nome => contagem[nome]),
-                backgroundColor: '#E8132B'
+                backgroundColor: '#D9A441'
             }]
         };
     }
 
-    // Faturamento somado por dia (linha).
     montarGraficoFaturamento(pedidos: any[]) {
         const porDia: any = {};
         pedidos.forEach(p => {
@@ -109,26 +135,26 @@ export class DashboardComponent implements OnInit {
             datasets: [{
                 label: 'Faturamento (R$)',
                 data: dias.map(d => porDia[d]),
-                borderColor: '#E8132B',
-                backgroundColor: 'rgba(232,19,43,0.2)',
+                borderColor: '#D9A441',
+                backgroundColor: 'rgba(217,164,65,0.2)',
                 fill: true,
                 tension: 0.3
             }]
         };
     }
 
-    // Produtos agrupados por categoria (rosca).
     montarGraficoCategoria(produtos: any[]) {
         const contagem: any = {};
         produtos.forEach(p => {
             const c = p.categoria || 'Sem categoria';
             contagem[c] = (contagem[c] || 0) + 1;
         });
+        const labels = Object.keys(contagem);
         this.categoriaData = {
-            labels: Object.keys(contagem),
+            labels: labels,
             datasets: [{
                 data: Object.values(contagem),
-                backgroundColor: ['#E8132B', '#F0A800', '#42A5F5', '#66BB6A', '#AB47BC']
+                backgroundColor: labels.map(c => this.corCategoria(c))
             }]
         };
     }

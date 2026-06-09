@@ -15,7 +15,7 @@ $gutter: 1rem; //for primeflex grid system
 
 /* ===== Tema Pac Pizzaria ===== */
 .layout-topbar {
-    background-color: #E8132B;
+    background-color: #2D3748;
     border-bottom: none;
 }
 .layout-topbar .layout-topbar-logo span {
@@ -44,8 +44,8 @@ $gutter: 1rem; //for primeflex grid system
 
 /* Cor de destaque vermelha (paginação, seleção, foco) */
 :root {
-    --primary-color: #E8132B;
-    --primary-color-text: #ffffff;
+    --primary-color: #D9A441;
+    --primary-color-text: #1F2937;
 }
 
 /* Banner da Pac Pizzaria */
@@ -65,4 +65,13 @@ $gutter: 1rem; //for primeflex grid system
     color: #ffe3e3;
     font-size: 1.1rem;
     margin: 0.5rem 0 0;
+}
+/* Botoes primarios em grafite (combinando com o topo) */
+.p-button:not([class*="p-button-"]) {
+    background: #2D3748;
+    border-color: #2D3748;
+}
+.p-button:not([class*="p-button-"]):enabled:hover {
+    background: #1F2937;
+    border-color: #1F2937;
 }

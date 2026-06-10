@@ -1,98 +1,106 @@
-# 🍕 Pizzaria Fullstack — Fase 0 (Fundação)
+# 🍕 Pac Pizzaria — Sistema de Gestão Interna
 
-Projeto base com **autenticação JWT** funcionando: cadastro, login, rota protegida,
-documentação Swagger e CORS configurado. A partir daqui a equipe cria as entidades
-do tema (Clientes, Produtos, Pedidos).
-
-## 🧱 Estrutura
-
-```
-pizzaria-fullstack/
-├── backend/                 # API REST (Node.js + Express)
-│   ├── server.js            # arquivo principal
-│   └── src/
-│       ├── config/          # banco (SQLite) e Swagger
-│       ├── models/          # tabelas do banco
-│       ├── middleware/      # autenticação JWT
-│       ├── controllers/     # lógica das rotas
-│       └── routes/          # caminhos da API + doc Swagger
-└── frontend/                # interface (HTML, CSS, JS)
-    ├── index.html           # login / cadastro
-    ├── dashboard.html       # página protegida
-    ├── css/style.css
-    └── js/
-```
-
-## ▶️ Como rodar no GitHub Codespaces
-
-> O frontend já descobre a URL da API sozinho (ver `descobrirApiUrl()` nos
-> arquivos JS), então **não precisa editar `API_URL`**.
-
-### 1) Backend
-Abra um terminal no Codespaces:
-```bash
-cd backend
-npm install
-cp .env.example .env       # depois troque o JWT_SECRET dentro do .env
-npm run dev
-```
-O Codespaces vai detectar a porta **3000** e mostrar um aviso de "porta encaminhada".
-
-### 2) Deixe a porta 3000 PÚBLICA (passo essencial!)
-Na aba **PORTS** (ao lado do terminal), clique com o botão direito na porta **3000**
-→ **Port Visibility** → **Public**.
-Sem isso, o frontend é bloqueado ao tentar acessar a API (erro de CORS/autenticação).
-
-### 3) Frontend
-Instale a extensão **Live Server** no Codespaces, clique com o botão direito em
-`frontend/index.html` → **Open with Live Server**. Ele abre numa porta própria
-(ex.: 5500), também encaminhada. Pronto: cadastro e login já funcionam.
-
-> 💡 A documentação Swagger fica na URL pública da porta 3000 + `/api-docs`.
+Sistema fullstack de **gestão interna para uma pizzaria**, desenvolvido como projeto acadêmico. Permite gerenciar produtos, clientes e pedidos, com autenticação, painel de indicadores e exportação de dados.
 
 ---
 
-## ▶️ Como rodar localmente (alternativa)
+## ✨ Funcionalidades
+
+- 🔐 **Autenticação** com JWT — login protegido e guarda de rotas
+- 📊 **Dashboard** com indicadores (produtos, clientes, pedidos, faturamento), gráficos e tabela dos últimos pedidos
+- 🍕 **Produtos** — cadastro completo (criar, listar, editar, excluir)
+- 👥 **Clientes** — cadastro completo com preenchimento de endereço por CEP (ViaCEP)
+- 🧾 **Pedidos** — montagem do pedido escolhendo cliente e produtos, com **cálculo automático do total** e controle de status
+- 📥 **Exportação em CSV** das tabelas
+- 📚 **Documentação da API** via Swagger
+
+---
+
+## 🛠️ Tecnologias
+
+**Frontend**
+- Angular 16
+- PrimeNG (componentes de interface)
+- Chart.js (gráficos)
+
+**Backend**
+- Node.js + Express
+- SQLite (banco de dados)
+- JWT (autenticação)
+- Swagger (documentação da API)
+
+---
+
+## 📁 Estrutura do projeto
+
+```
+crud-primeng-fullstack/
+├── back/    → API REST (Express + SQLite)
+└── front/   → Aplicação web (Angular + PrimeNG)
+```
+
+---
+
+## 🚀 Como rodar o projeto
+
+### Pré-requisitos
+- [Node.js](https://nodejs.org/) instalado
+- npm
+
+### 1. Backend (API)
+
 ```bash
-cd backend && npm install && cp .env.example .env && npm run dev
-```
-Abra `frontend/index.html` com o Live Server. A API responde em `http://localhost:3000`.
-
-## 🔐 Rotas já prontas
-
-| Método | Rota             | Protegida? | O que faz                |
-|--------|------------------|------------|--------------------------|
-| POST   | `/auth/registrar`| não        | Cadastra usuário         |
-| POST   | `/auth/login`    | não        | Faz login, devolve token |
-| GET    | `/auth/perfil`   | **sim**    | Dados do usuário logado  |
-
-## ➕ Como criar uma nova entidade (o padrão a seguir)
-
-Para cada entidade nova (ex.: `Produto`), copie a lógica do usuário e crie 3 arquivos:
-
-1. **Model** — `src/models/Produto.js`: define as colunas (Nome, Preço, etc.).
-2. **Controller** — `src/controllers/produtoController.js`: funções
-   `listar`, `buscarPorId`, `criar`, `atualizar`, `deletar`.
-3. **Rota** — `src/routes/produtoRoutes.js`: liga os caminhos ao controller,
-   com os comentários `@swagger`. Proteja com o middleware `autenticar`.
-
-Depois, registre a rota no `server.js`:
-```js
-const produtoRoutes = require('./src/routes/produtoRoutes');
-app.use('/produtos', produtoRoutes);
+cd crud-primeng-fullstack/back
+npm install
 ```
 
-No frontend, crie uma página com um formulário (criar/editar) e uma tabela
-(listar/deletar), chamando a API com Fetch e enviando o token no cabeçalho:
-```js
-headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
+Crie um arquivo **`.env`** dentro da pasta `back/` com o seguinte conteúdo:
+
+```
+JWT_SECRET=sua_chave_secreta_aqui
+JWT_EXPIRES_IN=1d
 ```
 
-## 👥 Divisão (lembrete)
-- **Fase 0 (esta):** feita em equipe.
-- **Pessoa A:** Clientes (ViaCEP + IBGE).
-- **Pessoa B:** Produtos + gestão de Usuários.
-- **Juntos:** Pedidos.
+Inicie o servidor:
 
-> Use branches por pessoa (`feature/clientes`, `feature/produtos`) e
-> assine os comentários no código: `// ... - [Seu Nome]`.
+```bash
+npm start
+```
+
+A API sobe em **http://localhost:3000** e a documentação (Swagger) fica em **http://localhost:3000/api-docs**.
+
+### 2. Frontend (aplicação web)
+
+Em outro terminal:
+
+```bash
+cd crud-primeng-fullstack/front
+npm install
+npm start
+```
+
+A aplicação abre em **http://localhost:4200**.
+
+> 💡 Para acessar o sistema, crie um usuário pela API (use o Swagger em `/api-docs`) e faça login na tela inicial.
+
+---
+
+## 📸 Capturas de tela
+
+<!-- Adicione aqui prints do sistema. Exemplo:
+![Tela de login](docs/login.png)
+![Dashboard](docs/dashboard.png)
+-->
+
+---
+
+## 👨‍💻 Autores
+
+- **Henrique Carneiro** — [@Henrique-CR0](https://github.com/Henrique-CR0)
+- **Lucas Vietez** — [@lucasveietez-cmyk](https://github.com/lucasveietez-cmyk)
+
+---
+
+## 📄 Licença
+
+Projeto de uso acadêmico e educacional.

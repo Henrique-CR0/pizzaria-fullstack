@@ -110,7 +110,7 @@ A aplicação abre em **http://localhost:4200**.
 
 ## 📸 Capturas de tela
 
-<img width="82.3 height="73.78" alt="Image" src="https://github.com/user-attachments/assets/498df44e-1fdf-4a79-98fe-af01cb80af68" />
+<img width="82.3" height="73.78" alt="Image" src="https://github.com/user-attachments/assets/d2859206-530b-4037-af0f-4d5880b0e845" />
 ---
 
 ## 👨‍💻 Autores

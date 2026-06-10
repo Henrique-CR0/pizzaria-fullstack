@@ -4,6 +4,29 @@ Sistema fullstack de **gestão interna para uma pizzaria**, desenvolvido como pr
 
 ---
 
+## 📖 Sobre o projeto
+
+O **Pac Pizzaria** é um sistema de **gestão interna** pensado para o dia a dia de uma pizzaria. Diferente de um cardápio voltado ao cliente final, o foco aqui é a **operação interna**: controlar produtos, clientes e pedidos em um só lugar, com um painel que dá a visão geral do negócio (totais, faturamento e últimos pedidos).
+
+O projeto foi desenvolvido como **trabalho acadêmico**, com o objetivo de aplicar na prática conceitos de desenvolvimento **fullstack** — integrando uma interface web a uma API própria, com banco de dados e autenticação.
+
+---
+
+## 🧩 Como foi desenvolvido
+
+A aplicação segue uma arquitetura **cliente-servidor**: o frontend em Angular consome uma **API REST** construída em Node.js/Express, que persiste os dados em um banco **SQLite** e protege as rotas com **autenticação JWT**.
+
+O desenvolvimento foi feito em **dupla**, usando o **GitHub Codespaces** e versionamento com **Git**. As principais etapas foram:
+
+- **Backend:** modelagem das entidades (produtos, clientes, pedidos e usuários) e criação dos endpoints REST, com documentação via Swagger.
+- **Frontend:** a interface partiu do template Sakai (PrimeNG) como base e foi adaptada para consumir a API. Cada entidade ganhou um **CRUD completo** (listar, criar, editar e excluir).
+- **Regras de negócio:** o pedido monta a lista de itens e **calcula o total automaticamente**; o cadastro de clientes preenche o endereço a partir do **CEP** (ViaCEP).
+- **Identidade visual:** o template recebeu um **tema próprio** (cores, logo e ajustes de layout) para ter cara de sistema de gestão profissional.
+- **Limpeza e organização:** todo o código de exemplo que veio com o template foi **removido**, deixando o projeto enxuto e contendo apenas o que é realmente usado.
+- **Dashboard:** um painel reúne **indicadores reais** (totais e faturamento), gráficos e a tabela dos últimos pedidos.
+
+---
+
 ## ✨ Funcionalidades
 
 - 🔐 **Autenticação** com JWT — login protegido e guarda de rotas
@@ -87,10 +110,8 @@ A aplicação abre em **http://localhost:4200**.
 
 ## 📸 Capturas de tela
 
-<!-- Adicione aqui prints do sistema. Exemplo:
-![Tela de login](docs/login.png)
-![Dashboard](docs/dashboard.png)
--->
+![alt text](image.png)
+![alt text](image-1.png)
 
 ---
 

@@ -33,6 +33,15 @@ export class PedidoComponent implements OnInit {
     // Opcoes de status do pedido.
     statusOptions: string[] = ['Pendente', 'Em preparo', 'Saiu para entrega', 'Entregue'];
 
+    // Colunas usadas na exportacao do CSV.
+    cols: any[] = [
+        { field: 'id', header: 'Id' },
+        { field: 'clienteNome', header: 'Cliente' },
+        { field: 'total', header: 'Total' },
+        { field: 'status', header: 'Status' },
+        { field: 'data', header: 'Data' }
+    ];
+
     constructor(private pedidoService: PedidoService, private messageService: MessageService) { }
 
     ngOnInit() {
@@ -158,11 +167,13 @@ export class PedidoComponent implements OnInit {
         }
     }
 
-    // Define a cor da badge conforme o status do pedido.
-    statusSeverity(status: any): string {
-        if (status === 'Entregue') return 'success';
-        if (status === 'Pendente') return 'warning';
-        return 'info';
+    // Define a cor da badge conforme o status do pedido (igual ao dashboard).
+    statusColor(status: any): string {
+        if (status === 'Entregue') return '#43A047';
+        if (status === 'Pendente') return '#F0A800';
+        if (status === 'Em preparo') return '#1E88E5';
+        if (status === 'Saiu para entrega') return '#7E57C2';
+        return '#9E9E9E';
     }
     
     onGlobalFilter(table: Table, event: Event) {

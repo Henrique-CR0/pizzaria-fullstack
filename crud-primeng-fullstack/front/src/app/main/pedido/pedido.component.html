@@ -19,7 +19,7 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="pedidos" responsiveLayout="scroll" [rows]="10"
+            <p-table #dt [value]="pedidos" [columns]="cols" exportFilename="pedidos" responsiveLayout="scroll" [rows]="10"
                 [globalFilterFields]="['clienteNome','status']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} pedidos"
@@ -54,7 +54,7 @@
                         <td><span class="p-column-title">Itens</span>{{pedido.itens?.length || 0}}</td>
                         <td><span class="p-column-title">Total</span>{{pedido.total | currency:'BRL'}}</td>
                         <td><span class="p-column-title">Status</span>
-    <p-tag [value]="pedido.status" [severity]="statusSeverity(pedido.status)" [rounded]="true"></p-tag>
+    <p-tag [value]="pedido.status" [style]="{'background-color': statusColor(pedido.status), 'color': '#ffffff'}" [rounded]="true"></p-tag>
                         </td>
                         <td><span class="p-column-title">Data</span>{{pedido.data}}</td>
                         <td>

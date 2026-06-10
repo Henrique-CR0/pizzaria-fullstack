@@ -110,7 +110,7 @@ A aplicação abre em **http://localhost:4200**.
 
 ## 📸 Capturas de tela
 
-  <img src="produtos-fase-produtos/imagem.png" alt="logo">
+![Tela de login](produtos-fase-produtos/imagem.png)
 
 ---
 

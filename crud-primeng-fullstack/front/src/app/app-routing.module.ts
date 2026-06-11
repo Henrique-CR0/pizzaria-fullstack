@@ -8,9 +8,9 @@ import { AuthGuard } from './main/middleware/guards/auth.guard';
     imports: [
         RouterModule.forRoot([
             {
-                path: '', component: AppLayoutComponent,
+                path: '', component: AppLayoutComponent, canActivate: [AuthGuard],
                 children: [
-                    { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule), canActivate: [AuthGuard] },
+                    { path: '', loadChildren: () => import('./demo/components/dashboard/dashboard.module').then(m => m.DashboardModule) },
                     { path: 'main', loadChildren: () => import('./main/main.module').then(m => m.MainModule) }
                 ]
             },

@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
-import { firstValueFrom } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { Router } from '@angular/router';
 
@@ -10,43 +8,43 @@ interface LoginCredentials {
   password: string;
 }
 
-interface LoginResponse {
-  token: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private tokenKey = 'token';
-  private apiUrl = environment.baseUrl + '/auth'; // ajuste para a URL do seu backend
+  private apiUrl = environment.baseUrl + '/auth';
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
-    this.checkToken(); // Verifica se há um token válido e conecta o WebSocket após refresh
+  constructor(private router: Router) {
+    this.checkToken();
   }
 
-  // Método de login
+  // Metodo de login (via fetch).
   async login(credentials: LoginCredentials): Promise<string> {
     try {
-      // Make sure the endpoint matches your backend API
-      const response = await firstValueFrom(
-        this.http.post<LoginResponse>(`${this.apiUrl}/login`, credentials)
-      );
+      const res = await fetch(this.apiUrl + '/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(credentials)
+      });
 
-      // Make sure the token is valid before saving it
+      if (!res.ok) {
+        throw { status: res.status };
+      }
+
+      const response = await res.json();
       if (response && response.token) {
         await this.setToken(response.token);
-
         return response.token;
-      } else {
-        throw new Error('Invalid token received from server');
       }
-    } catch (error) {
+      throw { status: res.status };
+    } catch (error: any) {
       console.error('Login error:', error);
-      throw error;
+      // Falha de rede (sem status) vira "servidor indisponivel".
+      if (error && error.status !== undefined) {
+        throw error;
+      }
+      throw { status: 0 };
     }
   }
 
@@ -67,18 +65,14 @@ export class AuthService {
     localStorage.removeItem(this.tokenKey);
   }
 
-  // Método de logout
+  // Metodo de logout
   logout(): void {
-    // Desconectar o WebSocket ao deslogar
-    console.log('Desconectando WebSocket ao fazer logout...');
-
-    // Remover o token
     this.removeToken();
     this.router.navigate(['/auth/login']);
     window.location.reload();
   }
 
-  // Verifica se o usuário está autenticado
+  // Verifica se o usuario esta autenticado
   isAuthenticated(): boolean {
     const token = this.getToken();
     if (!token) {
@@ -86,35 +80,28 @@ export class AuthService {
     }
 
     try {
-      // Safe token validation
       const decodedToken = jwtDecode(token);
       const currentTime = Date.now() / 1000;
-
-      // Check if token has exp claim and is not expired
       if (decodedToken && decodedToken.exp && decodedToken.exp > currentTime) {
         return true;
       }
       return false;
     } catch (error) {
       console.error('Token validation error:', error);
-      this.removeToken(); // Clear invalid token
+      this.removeToken();
       return false;
     }
   }
 
-  // Checar se o token é válido ao iniciar o serviço
+  // Checar se o token e valido ao iniciar o servico
   private checkToken(): void {
     const token = this.getToken();
     if (token) {
       try {
         const decodedToken: any = jwtDecode(token);
         const expirationDate = new Date(decodedToken.exp * 1000);
-
         if (expirationDate < new Date()) {
           this.logout();
-        } else {
-          // Conectar ao WebSocket se o token for válido
-          console.log('Reconectando WebSocket após refresh, token válido...');
         }
       } catch (error) {
         console.error('Token validation error:', error);
@@ -122,8 +109,4 @@ export class AuthService {
       }
     }
   }
-
 }
-
-
-

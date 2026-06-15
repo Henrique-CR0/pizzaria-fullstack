@@ -118,7 +118,7 @@ A aplicação abre em **http://localhost:4200**.
 ## 👨‍💻 Autores
 
 - **Henrique Carneiro** — [@Henrique-CR0](https://github.com/Henrique-CR0)
-- **Lucas Vietez** — [@lucasveietez-cmyk](https://github.com/lucasveietez-cmyk)
+- **Lucas Vieitez** — [@lucasveietez-cmyk](https://github.com/lucasveietez-cmyk)
 
 ---
 

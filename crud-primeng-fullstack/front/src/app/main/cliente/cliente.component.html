@@ -80,44 +80,58 @@
                 </div>
                 <div class="field">
                     <label for="telefone">Telefone</label>
-                    <input type="text" pInputText id="telefone" [(ngModel)]="cliente.telefone" />
+                    <input type="text" pInputText id="telefone" [(ngModel)]="cliente.telefone"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.telefone}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.telefone">Telefone é obrigatório</small>
                 </div>
                 <div class="field">
                     <label for="cep">CEP</label>
                     <input type="text" pInputText id="cep" [(ngModel)]="cliente.cep" (blur)="buscarCep()"
-                        placeholder="Somente numeros" />
-                    <small>Digite o CEP e saia do campo para preencher o endereço automaticamente.</small>
+                        placeholder="Somente numeros"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.cep}" />
+                    <small *ngIf="!(submitted && !cliente.cep)">Digite o CEP e saia do campo para preencher o endereço automaticamente.</small>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.cep">CEP é obrigatório</small>
                 </div>
                 <div class="field">
                     <label for="endereco">Endereço</label>
-                    <input type="text" pInputText id="endereco" [(ngModel)]="cliente.endereco" />
+                    <input type="text" pInputText id="endereco" [(ngModel)]="cliente.endereco"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.endereco}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.endereco">Endereço é obrigatório</small>
                 </div>
                 <div class="field">
                     <label for="numero">Número</label>
-                    <input type="text" pInputText id="numero" [(ngModel)]="cliente.numero" />
+                    <input type="text" pInputText id="numero" [(ngModel)]="cliente.numero"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.numero}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.numero">Número é obrigatório</small>
                 </div>
                 <div class="field">
-                    <label for="complemento">Complemento</label>
+                    <label for="complemento">Complemento <span class="text-500">(opcional)</span></label>
                     <input type="text" pInputText id="complemento" [(ngModel)]="cliente.complemento" />
                 </div>
                 <div class="field">
                     <label for="bairro">Bairro</label>
-                    <input type="text" pInputText id="bairro" [(ngModel)]="cliente.bairro" />
+                    <input type="text" pInputText id="bairro" [(ngModel)]="cliente.bairro"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.bairro}" />
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.bairro">Bairro é obrigatório</small>
                 </div>
                 <div class="field">
                     <label for="estado">Estado</label>
                     <p-dropdown appendTo="body" inputId="estado" [options]="estados" optionLabel="nome"
                         optionValue="sigla" [(ngModel)]="cliente.estado" (onChange)="onEstadoChange()" [filter]="true"
-                        placeholder="Selecione o estado"></p-dropdown>
+                        placeholder="Selecione o estado"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.estado}"></p-dropdown>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.estado">Estado é obrigatório</small>
                 </div>
                 <div class="field">
                     <label for="cidade">Cidade</label>
                     <p-dropdown appendTo="body" inputId="cidade" [options]="cidades" optionLabel="nome"
                         optionValue="nome" [(ngModel)]="cliente.cidade" [filter]="true"
-                        placeholder="Selecione a cidade"></p-dropdown>
+                        placeholder="Selecione a cidade"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !cliente.cidade}"></p-dropdown>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.cidade">Cidade é obrigatória</small>
                 </div>
                 <div class="field">
-                    <label for="pontoReferencia">Ponto de referência</label>
+                    <label for="pontoReferencia">Ponto de referência <span class="text-500">(opcional)</span></label>
                     <textarea pInputTextarea id="pontoReferencia" [(ngModel)]="cliente.pontoReferencia" rows="2"></textarea>
                 </div>
                 <!-- Seletor "Favoritar endereco" estilo iFood: selecionado fica vermelho -->
@@ -131,6 +145,7 @@
                             [ngClass]="cliente.tipoEndereco === 'Trabalho' ? 'p-button-danger' : 'p-button-outlined p-button-secondary'"
                             (click)="cliente.tipoEndereco = 'Trabalho'"></button>
                     </div>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !cliente.tipoEndereco">Selecione Casa ou Trabalho</small>
                 </div>
             </ng-template>
             <ng-template pTemplate="footer">

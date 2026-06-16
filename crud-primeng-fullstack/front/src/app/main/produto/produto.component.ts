@@ -81,8 +81,7 @@ export class ProdutoComponent implements OnInit {
     saveProduto() {
         this.submitted = true;
 
-        if (this.produto.nome?.trim()) {
-            if (this.produto.id) {
+    if (this.produto.nome && this.produto.categoria && this.produto.preco && this.produto.descricao) {            if (this.produto.id) {
                 this.produtoService.updateProduto(this.produto).then(() => {
                     this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Produto atualizado', life: 3000 });
                     this.getProdutos();

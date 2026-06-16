@@ -1,3 +1,4 @@
+// Pac Pizzaria - Servico de Autenticacao (login e token) - Henrique Carneiro e Lucas Vieitez
 import { Injectable } from '@angular/core';
 import { environment } from '../../../../environments/environment';
 import { jwtDecode } from 'jwt-decode';

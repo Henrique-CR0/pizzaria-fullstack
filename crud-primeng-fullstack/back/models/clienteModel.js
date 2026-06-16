@@ -1,3 +1,4 @@
+// Pac Pizzaria - Model de Cliente no banco (SQLite) - Henrique Carneiro
 // Model do Cliente: cria a tabela e faz as operacoes no banco (SQLite). - [Henrique]
 const db = require('../db/database')
 

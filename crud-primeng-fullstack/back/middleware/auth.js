@@ -1,3 +1,4 @@
+// Pac Pizzaria - Middleware que valida o token JWT - Henrique Carneiro e Lucas Vieitez
 const jwt = require('jsonwebtoken');
 
 function authenticateToken(req, res, next) {

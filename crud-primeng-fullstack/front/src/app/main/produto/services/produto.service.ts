@@ -1,3 +1,4 @@
+// Pac Pizzaria - Servico de Produtos (API) - Lucas Vieitez
 // Servico do Produto: CRUD de produtos (comunicacao via fetch).
 import { Injectable } from '@angular/core';
 import { Produto } from '../models/produto';

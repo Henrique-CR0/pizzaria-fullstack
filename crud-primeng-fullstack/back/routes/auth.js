@@ -1,3 +1,4 @@
+// Pac Pizzaria - Rotas de Autenticacao (registro e login JWT) - Henrique Carneiro e Lucas Vieitez
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')

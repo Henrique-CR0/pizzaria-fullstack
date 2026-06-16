@@ -1,3 +1,4 @@
+// Pac Pizzaria - Model de Pedido no banco (itens em JSON) - Lucas Vieitez
 // Model do Pedido: guarda o cliente, a lista de itens (em JSON) e o total.
 const db = require('../db/database')
 

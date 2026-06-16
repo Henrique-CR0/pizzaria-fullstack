@@ -1,3 +1,4 @@
+// Pac Pizzaria - Modelo de dados do Pedido - Lucas Vieitez
 // Modelo do Pedido e de cada Item do pedido. - [Lucas]
 export interface ItemPedido {
     produtoId?: number;

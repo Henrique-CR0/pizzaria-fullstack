@@ -1,3 +1,4 @@
+// Pac Pizzaria - Rotas REST de Clientes (protegidas por JWT) - Henrique Carneiro
 // Rotas REST do Cliente, todas protegidas por JWT. - [Henrique]
 var express = require('express');
 var router = express.Router();

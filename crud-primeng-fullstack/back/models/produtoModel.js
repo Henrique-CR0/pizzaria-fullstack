@@ -1,3 +1,4 @@
+// Pac Pizzaria - Model de Produto no banco (SQLite) - Lucas Vieitez
 const db = require('../db/database')
 
 // Cria a tabela de produtos se ainda nao existir - [Henrique]

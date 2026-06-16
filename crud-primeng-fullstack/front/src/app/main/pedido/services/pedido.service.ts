@@ -1,3 +1,4 @@
+// Pac Pizzaria - Servico de Pedidos (API) - Lucas Vieitez
 // Servico do Pedido: CRUD de pedidos + busca clientes e produtos para os selects (comunicacao via fetch).
 import { Injectable } from '@angular/core';
 import { Pedido } from '../models/pedido';

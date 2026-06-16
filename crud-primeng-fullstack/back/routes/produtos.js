@@ -1,3 +1,4 @@
+// Pac Pizzaria - Rotas REST de Produtos (protegidas por JWT) - Lucas Vieitez
 var express = require('express');
 var router = express.Router();
 var authenticateToken = require('../middleware/auth')

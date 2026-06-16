@@ -1,3 +1,4 @@
+// Pac Pizzaria - Tela de Pedidos (CRUD, calcula o total) - Lucas Vieitez
 // Tela de CRUD de Pedidos: escolhe cliente, adiciona produtos e calcula o total.
 import { Component, OnInit } from '@angular/core';
 import { Pedido } from './models/pedido';

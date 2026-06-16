@@ -1,3 +1,4 @@
+// Pac Pizzaria - Dashboard (indicadores e graficos) - Henrique Carneiro e Lucas Vieitez
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';

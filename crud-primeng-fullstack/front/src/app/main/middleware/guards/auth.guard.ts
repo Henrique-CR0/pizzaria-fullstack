@@ -1,3 +1,4 @@
+// Pac Pizzaria - Guarda de rotas (protege as telas internas) - Henrique Carneiro e Lucas Vieitez
 // src/app/core/guards/auth.guard.ts
 import { Injectable } from '@angular/core';
 import { AuthService } from '../auth/auth.service';

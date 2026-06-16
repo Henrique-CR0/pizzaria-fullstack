@@ -19,7 +19,7 @@ export class AuthService {
     this.checkToken();
   }
 
-  // Metodo de login (via fetch).
+  // Faz login na API e guarda o token JWT no navegador - Henrique Carneiro e Lucas Vieitez
   async login(credentials: LoginCredentials): Promise<string> {
     try {
       const res = await fetch(this.apiUrl + '/login', {

@@ -93,7 +93,7 @@ export class PedidoComponent implements OnInit {
         }
     }
 
-    // Soma preco x quantidade de todos os itens.
+    // Calcula o total do pedido (preco x quantidade de cada item) - Lucas Vieitez
     calcularTotal() {
         let soma = 0;
         for (const item of (this.pedido.itens || [])) {

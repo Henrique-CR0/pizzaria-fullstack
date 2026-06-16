@@ -56,7 +56,7 @@ export class ClienteComponent implements OnInit {
         }
     }
 
-    // ViaCEP: ao sair do campo CEP, preenche o endereco sozinho.
+    // Busca o endereco automaticamente pelo CEP usando a API ViaCEP - Henrique Carneiro
     buscarCep() {
         const cep = (this.cliente.cep || '').replace(/\D/g, '');
         if (cep.length !== 8) {

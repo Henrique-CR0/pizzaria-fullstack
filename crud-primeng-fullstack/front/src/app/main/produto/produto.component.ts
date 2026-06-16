@@ -78,6 +78,7 @@ export class ProdutoComponent implements OnInit {
         this.submitted = false;
     }
 
+    // Salva o produto depois de validar os campos obrigatorios - Lucas Vieitez
     saveProduto() {
         this.submitted = true;
 

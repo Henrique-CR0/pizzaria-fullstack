@@ -134,7 +134,7 @@ export class ClienteComponent implements OnInit {
     // Com id -> atualiza (PUT). Sem id -> cria (POST). Depois recarrega.
     saveCliente() {
         this.submitted = true;
-        if (this.cliente.nomeCompleto?.trim()) {
+        if (this.cliente.nomeCompleto && this.cliente.telefone && this.cliente.cep && this.cliente.endereco && this.cliente.numero && this.cliente.bairro && this.cliente.estado && this.cliente.cidade && this.cliente.tipoEndereco) {
             if (this.cliente.id) {
                 this.clienteService.updateCliente(this.cliente).then(() => {
                     this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Cliente atualizado', life: 3000 });

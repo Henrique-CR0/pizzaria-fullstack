@@ -79,16 +79,22 @@
                 <div class="field">
                     <label for="categoria">Categoria</label>
                     <p-dropdown appendTo="body" inputId="categoria" [options]="categorias"
-                        [(ngModel)]="produto.categoria" placeholder="Selecione uma categoria"></p-dropdown>
+                        [(ngModel)]="produto.categoria" placeholder="Selecione uma categoria"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !produto.categoria}"></p-dropdown>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !produto.categoria">Categoria é obrigatória</small>
                 </div>
                 <div class="field">
                     <label for="preco">Preço</label>
-                    <p-inputNumber inputId="preco" [(ngModel)]="produto.preco" mode="currency" currency="BRL">
+                    <p-inputNumber inputId="preco" [(ngModel)]="produto.preco" mode="currency" currency="BRL"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !produto.preco}">
                     </p-inputNumber>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !produto.preco">Preço é obrigatório</small>
                 </div>
                 <div class="field">
                     <label for="descricao">Descrição</label>
-                    <textarea pInputTextarea id="descricao" [(ngModel)]="produto.descricao" rows="3"></textarea>
+                    <textarea pInputTextarea id="descricao" [(ngModel)]="produto.descricao" rows="3"
+                        [ngClass]="{'ng-invalid ng-dirty' : submitted && !produto.descricao}"></textarea>
+                    <small class="ng-dirty ng-invalid" *ngIf="submitted && !produto.descricao">Descrição é obrigatória</small>
                 </div>
             </ng-template>
             <ng-template pTemplate="footer">

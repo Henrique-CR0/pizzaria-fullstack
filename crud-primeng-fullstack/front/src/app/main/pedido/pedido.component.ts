@@ -31,6 +31,10 @@ export class PedidoComponent implements OnInit {
     produtoSelecionado: any = null;
     quantidade: number = 1;
 
+    // Limite realista de unidades por item (evita totais absurdos por erro de digitacao).
+    // Baseado na pratica de pedidos: mesmo um evento grande de um so tipo de pizza nao passa disso.
+    quantidadeMaxima: number = 100;
+
     // Opcoes de status do pedido.
     statusOptions: string[] = ['Pendente', 'Em preparo', 'Saiu para entrega', 'Entregue'];
 
@@ -70,6 +74,16 @@ export class PedidoComponent implements OnInit {
     // Adiciona o produto selecionado (com a quantidade) na lista de itens.
     adicionarItem() {
         if (!this.produtoSelecionado || !this.quantidade || this.quantidade < 1) {
+            return;
+        }
+        // Bloqueia quantidade acima do limite por item e avisa o usuario.
+        if (this.quantidade > this.quantidadeMaxima) {
+            this.messageService.add({
+                severity: 'error',
+                summary: 'Quantidade acima do limite',
+                detail: 'Maximo de ' + this.quantidadeMaxima + ' unidades por item.',
+                life: 4000
+            });
             return;
         }
         if (!this.pedido.itens) {
@@ -146,6 +160,17 @@ export class PedidoComponent implements OnInit {
     savePedido() {
         this.submitted = true;
         if (this.clienteSelecionado && this.pedido.itens && this.pedido.itens.length > 0) {
+            // Guarda final: nenhum item pode passar do limite por item (protege ate pedidos editados).
+            const itemAcimaDoLimite = this.pedido.itens.find(it => (it.quantidade || 0) > this.quantidadeMaxima);
+            if (itemAcimaDoLimite) {
+                this.messageService.add({
+                    severity: 'error',
+                    summary: 'Quantidade acima do limite',
+                    detail: 'Ha um item com mais de ' + this.quantidadeMaxima + ' unidades. Ajuste antes de salvar.',
+                    life: 4000
+                });
+                return;
+            }
             this.pedido.clienteId = this.clienteSelecionado.id;
             this.pedido.clienteNome = this.clienteSelecionado.nomeCompleto;
             if (!this.pedido.data) {
@@ -176,7 +201,7 @@ export class PedidoComponent implements OnInit {
         if (status === 'Saiu para entrega') return '#7E57C2';
         return '#9E9E9E';
     }
-    
+
     onGlobalFilter(table: Table, event: Event) {
         table.filterGlobal((event.target as HTMLInputElement).value, 'contains');
     }

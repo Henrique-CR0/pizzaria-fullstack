@@ -20,7 +20,7 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="clientes" responsiveLayout="scroll" [rows]="10"
+            <p-table #dt [value]="clientes" [columns]="cols" exportFilename="clientes" responsiveLayout="scroll" [rows]="10"
                 [globalFilterFields]="['nomeCompleto','telefone','cidade','estado','bairro']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} clientes"

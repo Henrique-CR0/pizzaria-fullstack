@@ -19,7 +19,7 @@
                 </ng-template>
             </p-toolbar>
 
-            <p-table #dt [value]="produtos" responsiveLayout="scroll" [rows]="10"
+            <p-table #dt [value]="produtos" [columns]="cols" exportFilename="produtos" responsiveLayout="scroll" [rows]="10"
                 [globalFilterFields]="['nome','categoria','descricao']" [paginator]="true"
                 [rowsPerPageOptions]="[10,20,30]" [showCurrentPageReport]="true"
                 currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} produtos"

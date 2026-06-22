@@ -20,6 +20,7 @@ export class ProdutoComponent implements OnInit {
     selectedProdutos: Produto[] = [];
 
     submitted: boolean = false;
+    cols: any[] = [{field:'id',header:'Id'},{field:'nome',header:'Nome'},{field:'categoria',header:'Categoria'},{field:'preco',header:'Preco'},{field:'descricao',header:'Descricao'}];
 
     categorias: string[] = ['Pizza', 'Bebida', 'Sobremesa'];
 

@@ -21,7 +21,8 @@ export class ClienteComponent implements OnInit {
     selectedClientes: Cliente[] = [];
 
     submitted: boolean = false;
-
+    cols: any[] = [{field:'id',header:'Id'},{field:'nomeCompleto',header:'Nome'},{field:'telefone',header:'Telefone'},{field:'cidade',header:'Cidade'},{field:'estado',header:'UF'},{field:'tipoEndereco',header:'Favorito'}];
+    
     // Listas vindas do IBGE para os dropdowns.
     estados: any[] = [];
     cidades: any[] = [];
